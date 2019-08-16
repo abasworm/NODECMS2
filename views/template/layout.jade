@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title=title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/plugins/bootstrap/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/plugins/fontawesome/css/all.min.css')
+    link(rel='stylesheet', href='/plugins/datatables/datatables.min.css')
+    
+  body
+    include header.jade
+    .container-fluid
+        .row
+            include menu.jade
+            
+            block content
+    include footer
+
+    script(type='text/javascript', src='/plugins/jquery/jquery.min.js')
+    script(type='text/javascript', src='/plugins/bootstrap/js/bootstrap.min.js')
+    script(type='text/javascript', src='/plugins/fontawesome/js/all.min.js')
+    script(type='text/javascript', src='/plugins/datatables/datatables.min.js')
