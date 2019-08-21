@@ -1,0 +1,29 @@
+layouts ../../template/view/layout
+
+block content
+    h1=title
+	input(type='hidden',id='keyAt',value=token)
+	.row
+		.col-md-12
+			.col-md-3
+				a.btn.btn-primary.btn-sm(href="/user/add") 
+					i.fas.fa-plus.fa-sm
+					b &nbsp;Add
+			.col-md-9
+	.row
+		.col-md-12
+			table#dt_table.table.table-hover.table-striped.table-bordered
+				thead
+					tr
+						th #
+						th Username
+						th Fullname
+				tbody
+				tfoot
+					tr
+						th #
+						th Username
+						th Fullname
+	
+	script(src='/js/modules/user/table.js')
+                

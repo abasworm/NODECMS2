@@ -7,7 +7,7 @@ const resp = {
             'message': message,
             'results' : values
         };
-        return res.sendStatus(200).json(data);
+        return res.json(data);
     },
     failure : (values,message,res)=>{
         let data = {
@@ -15,7 +15,7 @@ const resp = {
             'message': message,
             'results' : values
         };
-        return res.sendStatus(500).json(data);
+        return res.json(data);
     },
     error : (values,message,res)=>{
         let data = {
@@ -23,7 +23,7 @@ const resp = {
             'message': message,
             'results' : values
         };
-        return res.sendStatus(400).json(data);
+        return res.json(data);
     },
     notfound : (res)=>{
         return res.sendStatus(404);

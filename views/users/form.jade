@@ -1,0 +1,37 @@
+extends ../../template/layout
+
+block content
+
+	h1=title
+	input(type='hidden',id='keyAt',value=token)
+	form(id='user_form',method='post')
+		if !isAddForm
+			input(type='hidden', name='ids', value=ids)
+		div.row#alertbox.alert.alert-warning
+			text#message
+			a#closeAlert.close.btn.btn-sm(href='javascript:;')
+				i.fas.fa-times
+		div.form-group.row
+			label.col-sm-2.col-form-label(for='username') Username
+			div.col-sm-10
+				input.form-control(type='text',id='username',placeholder='Username')
+		div.form-group.row
+			label.col-sm-2.col-form-label(for='password') Password
+			div.col-sm-10
+				input.form-control(type='password', id='password', placeholder='Password')
+		div.form-group.row
+			label.col-sm-2.col-form-label(for='confpassword') Confirm Password
+			div.col-sm-10
+				input.form-control(type='password', id='confpassword', placeholder='Confirm Password')
+		div.form-group.row
+			label.col-sm-2.col-form-label(for='fullname') Fullname
+			div.col-sm-10
+				input.form-control(type='text', id='fullname', placeholder='Fullname')
+		div.form-group.row
+			div.col-sm-10
+				if isAddForm
+					a.btn.btn-primary(href='javascript:save();') Simpan
+				else
+					a.btn.btn-primary(href='javascript:update();') Update
+
+	script(src='/public/javascripts/modules/user/form.js')
