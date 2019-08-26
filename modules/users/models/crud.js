@@ -20,7 +20,7 @@ let Mdl = {
         }
     },
 
-    selectOne: (id)=>{
+    selectOne: async (id)=>{
         try{
             if(!id) return false;
             let sql = "SELECT * FROM " + table_name + " WHERE " + primary_key + " = '" + id + "'";
@@ -32,7 +32,17 @@ let Mdl = {
         }
     },
 
-    insert : (data)=>{},
+    insert : async (data)=>{
+        try{
+            if(!data) return false;
+            for(var i in dataSet){
+                data[dataset[i]];
+            }
+        }catch(err){
+            console.log(err);   
+            return false;
+        }
+    },
     update : (id,data)=>{},
     delete : (id)={}
 }
