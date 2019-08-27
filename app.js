@@ -14,6 +14,8 @@ const usersRouter = require('./modules/users');
 const usersAPI = require('./modules/users/api');
 const loginRouter = require('./modules/login');
 
+const testRouter = require('./modules/test');
+
 const app = express();
 
 // view engine setup
@@ -42,6 +44,8 @@ app.use('/dashboard',dashboardRouter);
 app.use('/users', usersRouter);
 app.use('/api/user', usersAPI);
 app.use('/login', loginRouter);
+
+app.use('/test', testRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

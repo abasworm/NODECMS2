@@ -32,7 +32,7 @@ head
   // /.login-logo
   .login-box-body
     p.login-box-msg Sign in to start your session
-    form(action='javascript:;' method='post')
+    form(action='../../index2.html' method='post')
       .form-group.has-feedback
         input.form-control(type='text' placeholder='username' id='username')
         span.glyphicon.glyphicon-envelope.form-control-feedback
@@ -43,7 +43,7 @@ head
         .col-xs-8
         
         .col-xs-4
-          a.btn.btn-primary.btn-block.btn-flat(id="btn_login") Sign In
+          a.btn.btn-primary.btn-block.btn-flat(id="btn_submit") Sign In
         // /.col
     
     
@@ -54,6 +54,3 @@ head
 script(src='/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js')
 // iCheck
 script(src='/adminlte/plugins/iCheck/icheck.min.js')
-
-script(type='text/javascript', src='/js/modules/login.js')
-script(type='text/javascript', src='/js/funct.js')
