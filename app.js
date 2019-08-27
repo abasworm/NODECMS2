@@ -9,8 +9,10 @@ const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
 
+const dashboardRouter = require('./modules/dashboard');
 const usersRouter = require('./modules/users');
 const usersAPI = require('./modules/users/api');
+const loginRouter = require('./modules/login');
 
 const app = express();
 
@@ -34,10 +36,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+//app.use('/', indexRouter);
 
+app.use('/dashboard',dashboardRouter);
 app.use('/users', usersRouter);
 app.use('/api/user', usersAPI);
+app.use('/login', loginRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

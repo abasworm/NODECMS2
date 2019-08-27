@@ -99,7 +99,23 @@ let Mdl = {
         }
     },
 
-    delete : (id)={}
+    delete : async (id)=>{
+        try{
+            if(!id) return false;
+            let sql = "DELETE FROM " + table_name + " WHERE " + primary_key + " = '" + id + "'";
+            let res = await conn.query(sql);
+            return {
+                status : true,
+                data : res[0]
+            };
+        }catch(err){
+            //console.log(err);   
+            return {
+                status : false,
+                message: err.message
+            };
+        }
+    }
 }
 
 module.exports = Mdl;

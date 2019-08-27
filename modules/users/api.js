@@ -108,6 +108,11 @@ route
         }
     })
 
-    .delete('/:id');
+    .delete('/:id',async (req,res,next)=>{
+        let id = req.params.id;
+        let result = await Users.delete(id);
+        if(!result.status) await rest.error('',result.message,res);
+        rest.success(result.data,'sukses',res);
+    });
 
 module.exports = route;
