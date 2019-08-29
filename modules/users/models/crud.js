@@ -17,7 +17,7 @@ const dataSetUpdate = [
 let Mdl = {
     select : async ()=>{
         try{
-            let sql = "SELECT * FROM " + table_name;
+            let sql = "SELECT id,username, CONCAT(lastname,', ',firstname) AS fullname FROM " + table_name;
             let res = await conn.query(sql);
             return {
                 status : true,
@@ -35,7 +35,7 @@ let Mdl = {
     selectOne: async (id)=>{
         try{
             if(!id) return false;
-            let sql = "SELECT * FROM " + table_name + " WHERE " + primary_key + " = '" + id + "'";
+            let sql = "SELECT id, username, firstname, lastname FROM " + table_name + " WHERE " + primary_key + " = '" + id + "'";
             let res = await conn.query(sql);
             return {
                 status : true,

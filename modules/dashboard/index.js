@@ -1,6 +1,6 @@
 const route = require('express').Router();
-const rest = require('../../config/rest');
 const { isLogin } = require('../../middleware/auth');
+const view = require('../../config/templating');
 
 const _layout = {
     title : 'Welcome to dashboard'
@@ -8,7 +8,7 @@ const _layout = {
 
 route
     .get('/',isLogin, (req,res,next)=>{
-        res.render('dashboard',_layout);
+        view.ViewShow('dashboard',_layout,req,res);
     })
 ;
 

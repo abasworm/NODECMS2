@@ -1,5 +1,7 @@
 const route = require('express').Router();
 const rest = require('../../config/rest');
+const view = require('../../config/templating');
+
 const { isLogin } = require('../../middleware/auth');
 
 const _layout = {
@@ -8,7 +10,7 @@ const _layout = {
 
 route
     .get('/', (req,res,next)=>{
-        res.render('adminlte/layout',_layout);
+        view.ViewShow('atm',_layout,res);
     })
 ;
 

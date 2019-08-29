@@ -1,8 +1,5 @@
 extends ../adminlte/layout
 
-block footer
-    script(src='/js/modules/users/form.js')
-
 block content
     .col-md-12
         .box.box-info
@@ -12,16 +9,11 @@ block content
             // form start
             form.form-horizontal
                 .box-body
-                    #alertbox.alert.alert-warning
-                        a#closeAlert.close.btn.btn-sm(href='javascript:;')
-                            i.fa.fa-times
-                        text#message
                     .row
                         if !isAddForm
-                            input(type='hidden', name='ids', value=ids)
-                        
+			                input(type='hidden', name='ids', value=ids)
                         .col-md-12
-                    
+                        
                             .form-group
                                 label.col-sm-2.control-label(for='username') Username
                                 .col-sm-8
@@ -45,13 +37,8 @@ block content
                             .form-group
                                 .col-sm-2
                                 .col-sm-10
-                                    if isAddForm
-                                        a.btn.btn-primary(href='javascript:save();') Simpan
-                                    else
-                                        a.btn.btn-primary(href='javascript:update();') Update
-                                    | 
-                                    a.btn.btn-warning(href='/users') Cancel
+                                    button.btn.btn-info(type='submit') Sign in
                 // /.box-body
                 .box-footer
-
+    script('/js/modules/users/form.js');
                    

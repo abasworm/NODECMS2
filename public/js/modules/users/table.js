@@ -1,6 +1,6 @@
 var table;
 $(document).ready(function() {
-	var link = "/api/user";
+	var link = "/api/users/datatable";
 	//membuat footer menjadi field input
     $('#dt_table tfoot th').each(function () {
         var title = $('#dt_table thead th').eq($(this).index()).text();
@@ -36,7 +36,7 @@ $(document).ready(function() {
         buttons: [
             {
                 extend: 'copy',
-                text: '<i class="fas fa-copy"></i>',
+                text: '<i class="fa fa-copy"></i> Copy',
                 titleAttr: 'Copy',
 //                    exportOptions: { columns: ':visible:not(:last-child)' }, //last column has the action types detail/edit/delete
                 exportOptions: {
@@ -49,7 +49,7 @@ $(document).ready(function() {
             }, 
             {
                 extend: 'excel',
-                text: '<i class="fas fa-file-excel"></i>',
+                text: '<i class="fa fa-file-excel"></i> Excel',
                 titleAttr: 'Excel',
 //                    exportOptions: { columns: ':visible:not(:last-child)' }, //last column has the action types detail/edit/delete
                 exportOptions: {
@@ -62,7 +62,7 @@ $(document).ready(function() {
             },
             {
                 extend: 'pdf',
-                text: '<i class="fas fa-file-pdf"></i>',
+                text: '<i class="fa fa-document"></i> PDF',
                 titleAttr: 'PDF',
 //                    exportOptions: { columns: ':visible:not(:last-child)' }, //last column has the action types detail/edit/delete
                 exportOptions: {
@@ -75,7 +75,7 @@ $(document).ready(function() {
             }, 
             {
                 extend: 'excel',
-                text: '<i class="fas fa-file-excel"></i> All Page',
+                text: '<i class="fa fa-file-excel"></i> Excel All Page',
                 titleAttr: 'Excel All Page',
                 exportOptions: {
                     columns: ':visible:not(:first-child)'
@@ -86,12 +86,11 @@ $(document).ready(function() {
         "ajax": {
         	headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'auth_token' : $('#keyAt').val()
             },
             dataType: 'JSON',
             contentType:"application/json",
         	url : link,
-        	type: "GET",
+        	type: "POST",
         	data : function(d){
                 d.key = 'abcdh';
 
@@ -102,8 +101,8 @@ $(document).ready(function() {
             { "data":null ,"orderable":false, "searchable":false,
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                     $(nTd).html('<div class="btn-group">'
-                        +'<a href="javascript:edit(\''+oData._id+'\')" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a> '
-                        +'<a href="javascript:del(\''+oData._id+'\')" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a> '
+                        +'<a href="javascript:edit(\''+oData.id+'\')" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></a> '
+                        +'<a href="javascript:del(\''+oData.id+'\')" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a> '
                         +'</div>'
                     );
                 }
@@ -141,14 +140,14 @@ $(document).ready(function() {
 });
 
 function edit(id){
-    document.location = '/user/edit/'+id;
+    document.location = '/users/edit/'+id;
 }
 
 function del(id){
     a = confirm('Are you sure want to delete ?');
     
     if(a){
-        xhqr('/api/user/'+id,'DELETE',{key :'abcdh'},function(res,ret){
+        xhqr('/api/users/'+id,'DELETE',{key :'abcdh'},function(res,ret){
             if(res.status === 'error'){
                 alert('can\'t delete data :' + res.message);
             }else{

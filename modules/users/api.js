@@ -9,25 +9,25 @@ const JoiSchemaAdd = {
 	password : Joi.string().min(6).max(20).required(),
 	confpassword : Joi.string().min(6).max(20).required().valid(Joi.ref('password')),
     firstname : Joi.string().min(4).max(30).required(),
-    lasttname : Joi.string(),
+    lastname : Joi.string(),
 };
 const JoiSchemaEdit = {
 	id : Joi.string().required(),
 	username : Joi.string().min(6).max(20).required(),
 	firstname : Joi.string().min(4).max(30).required(),
-    lasttname : Joi.string(),
+    lastname : Joi.string(),
 };
-const fieldToShow = [
-	'_id',
-	'username',
-	'fullname'
-];
 
 route
-    .get('/',async (req,res,next)=>{
+    .get('/', async (req,res,next)=>{
         let result = await Users.select();
         if(!result.status) await rest.error('',result.message,res);
         rest.success(result.data,'sukses',res);
+    })
+    .post('/datatable',async (req,res,next)=>{
+        let result = await Users.select();
+        if(!result.status) await rest.error('',result.message,res);
+        rest.datatable(result.data,res);
     })
     .get('/:id',async (req,res,next)=>{
         let id = req.params.id;
@@ -37,27 +37,29 @@ route
     })
     .post('/', async (req,res,next)=>{
         if(!req.body) return res.sendStatus(400);
-
-        //password hash
-        const salt = await bcrypt.genSalt(10);
-        const pwd = await bcrypt.hash(req.body.password,salt);
         
         //getdata
         let data = {
             username : req.body.username,
-            password : pwd,
+            password : req.body.password,
             firstname: req.body.firstname,
             lastname : req.body.lastname
         };
 
         //validating
-        const { joiError, values} = Joi.validate(data, JoiSchemaAdd);
-        if(joiError){
-			const message = joiError.details[0].message;
-			const value = joiError.details[0].path[0];
+        try{
+            const joiError = await Joi.validate(data, JoiSchemaAdd);
+        }catch(err){
+            const message = err.details[0].message;
+			const value = err.details[0].path[0];
 			return rest.error(value,message,res);
         }
-        
+
+        //password hash
+        const salt = await bcrypt.genSalt(10);
+        const pwd = await bcrypt.hash(req.body.password,salt);
+        data.password = pwd;
+
         //insert user
         try{
             let result = await Users.insert(data);
@@ -80,23 +82,30 @@ route
             lastname : req.body.lastname
         };
 
-        //password hash
+
+        //password 
         if(req.body.password){
-            const salt = await bcrypt.genSalt(10);
-            const pwd = await bcrypt.hash(req.body.password,salt);
             JoiSchemaEdit.password = Joi.string().min(6).max(20).required();
             JoiSchemaEdit.confpassword = Joi.string().min(6).max(20).required().valid(Joi.ref('password'));
-            data.password = pwd;
-        }        
+            data.password = req.body.password;
+            data.confpassword = req.body.confpassword;
+        }
 
         //validating
-        const { joiError, values} = Joi.validate(data, JoiSchemaAdd);
-        if(joiError){
-			const message = joiError.details[0].message;
-			const value = joiError.details[0].path[0];
+        try{
+            const joiError = await Joi.validate(data, JoiSchemaAdd);
+        }catch(err){
+            const message = err.details[0].message;
+			const value = err.details[0].path[0];
 			return rest.error(value,message,res);
         }
         
+        if(req.body.password){
+            const salt = await bcrypt.genSalt(10);
+            const pwd = await bcrypt.hash(req.body.password,salt);
+            data.password = pwd;
+        }
+
         //insert user
         try{
             let result = await Users.update(req.params.id,data);

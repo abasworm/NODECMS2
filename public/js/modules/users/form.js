@@ -7,13 +7,14 @@ $(document).ready(function(e){
 
 	//EDIT
 	if($('input[name=ids]').val()){
-		xhqr('/api/user/'+$('input[name=ids]').val(),'GET',{},function(res,ret){
+		xhqr('/api/users/'+$('input[name=ids]').val(),'GET',{},function(res,ret){
 		if(res.status === 'error'){
 			$('#alertbox #message').html(res.message);
 			$('#alertbox').show();
 		}else{
-			$('#username').val(res.result.username);
-			$('#fullname').val(res.result.fullname);
+			$('#username').val(res.results.username);
+			$('#firstname').val(res.results.firstname);
+			$('#lastname').val(res.results.lastname);
 		}
 	});
 	}
@@ -25,14 +26,15 @@ function save(){
 		username: $('#username').val(),
 		password: $('#password').val(),
 		confpassword: $('#confpassword').val(),
-		fullname: $('#fullname').val()
+		firstname: $('#firstname').val(),
+		lastname: $('#lastname').val()
 	}
-	xhqr('/api/user','POST',jsData,function(res,ret){
-		if(res.status === 'error'){
+	xhqr('/api/users','POST',jsData,function(res,ret){
+		if(!res.status){
 			$('#alertbox #message').html(res.message);
 			$('#alertbox').show();
 		}else{
-			document.location.href = '/user'
+			document.location.href = '/users'
 		}
 	});
 }
@@ -43,14 +45,15 @@ function update(){
 		username: $('#username').val(),
 		password: $('#password').val(),
 		confpassword: $('#confpassword').val(),
-		fullname: $('#fullname').val()
+		firstname: $('#firstname').val(),
+		lastname: $('#lastname').val()
 	}
-	xhqr('/api/user/'+$('input[name=ids]').val(),'PUT',jsData,function(res,ret){
-		if(res.status === 'error'){
+	xhqr('/api/users/'+$('input[name=ids]').val(),'PUT',jsData,function(res,ret){
+		if(!res.status){
 			$('#alertbox #message').html(res.message);
 			$('#alertbox').show();
 		}else{
-			document.location.href = '/user'
+			document.location.href = '/users'
 		}
 	});
 }

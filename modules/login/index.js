@@ -15,27 +15,34 @@ const _layout = {
 
 route
     .get('/', (req,res,next)=>{
-        res.render('template/login',_layout);
+        
+        if(!req.session.username){
+            res.render('template/login',_layout);
+        }else{
+            res.redirect('/dashboard');
+        }
     })
     .post('/verify', async(req,res,next)=>{
         if(!req.body) return res.sendStatus(400);
-        let data = {
-            username : req.body.username,
-            password : req.body.password
-        };
-        try{
-            let User = await Login.getUser(data.username);
-            let verify = await bcrypt.compare(data.password,User.data.password);
-            if(verify){
-                req.session.username = User.data.username;
-                req.session.fullname = User.data.lastname + ", " + User.data.firstname;
-                rest.success(true,'Success Login',res);
-            }else{
-                rest.error(err,"Username / Password Salah",res);
-            }
-        }catch(err){
-            return rest.error(err,"Username / Password Salah",res);
+        
+            let data = {
+                username : req.body.username,
+                password : req.body.password
+            };
+            try{
+                let User = await Login.getUser(data.username);
+                let verify = await bcrypt.compare(data.password,User.data.password);
+                if(verify){
+                    req.session.username = User.data.username;
+                    req.session.fullname = User.data.lastname + ", " + User.data.firstname;
+                    rest.success(true,'Success Login',res);
+                }else{
+                    rest.error(err,"Username / Password Salah",res);
+                }
+            }catch(err){
+                return rest.error(err,"Username / Password Salah",res);
         }
+        
     })
     .get('/exit',async(req,res,next)=>{
         try{

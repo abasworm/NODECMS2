@@ -31,6 +31,11 @@ head
       
   // /.login-logo
   .login-box-body
+    #alertbox.alert.alert-warning
+      a#closeAlert.close.btn.btn-sm(href='javascript:;')
+          i.fa.fa-times
+      text#message
+        
     p.login-box-msg Sign in to start your session
     form(action='javascript:;' method='post')
       .form-group.has-feedback

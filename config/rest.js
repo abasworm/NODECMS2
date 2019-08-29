@@ -9,6 +9,10 @@ const resp = {
         };
         return res.json(data);
     },
+    datatable:(values,res)=>{
+        let data = {data:values};
+        return res.json(data);
+    },
     failure : (values,message,res)=>{
         let data = {
             'status' : false,
