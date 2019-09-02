@@ -2,38 +2,34 @@ const route = require('express').Router();
 const auth = require('../../middleware/auth');
 const Joi = require('@hapi/joi');
 const rest = require('../../config/rest');
-const bcrypt = require('bcryptjs');
-const Users = require('./models/crud');
+
+const Ms_service = require('./models/crud');
 
 
 const JoiSchemaAdd = {
-	username : Joi.string().min(6).max(20).required(),
-	password : Joi.string().min(6).max(20).required(),
-	confpassword : Joi.string().min(6).max(20).required().valid(Joi.ref('password')),
-    firstname : Joi.string().min(4).max(30).required(),
-    lastname : Joi.string(),
+	service_code : Joi.string().min(3).max(10).required(),
+	service_type : Joi.string().min(6).max(100).required()
 };
 const JoiSchemaEdit = {
-	id : Joi.number().required(),
-	username : Joi.string().min(6).max(20).required(),
-	firstname : Joi.string().min(4).max(30).required(),
-    lastname : Joi.string(),
+    id : Joi.number().required(),
+	service_code : Joi.string().min(3).max(10).required(),
+	service_type : Joi.string().min(6).max(100).required()
 };
 
 route
     .get('/',auth.isLoginAPI , async (req,res,next)=>{
-        let result = await Users.select();
+        let result = await Ms_service.select();
         if(!result.status) await rest.error('',result.message,res);
         rest.success(result.data,'sukses',res);
     })
     .post('/datatable',auth.isLoginDTTbl, async (req,res,next)=>{
-        let result = await Users.select();
+        let result = await Ms_service.select();
         if(!result.status) await rest.error('',result.message,res);
         rest.datatable(result.data,res);
     })
     .get('/:id',auth.isLoginAPI, async (req,res,next)=>{
         let id = req.params.id;
-        let result = await Users.selectOne(id);
+        let result = await Ms_service.selectOne(id);
         if(!result.status) await rest.error('',result.message,res);
         rest.success(result.data,'sukses',res);
     })
@@ -42,10 +38,8 @@ route
         
         //getdata
         let data = {
-            username : req.body.username,
-            password : req.body.password,
-            firstname: req.body.firstname,
-            lastname : req.body.lastname
+            service_code : req.body.service_code,
+            service_type : req.body.service_type
         };
 
         //validating
@@ -57,14 +51,11 @@ route
 			return rest.error(value,message,res);
         }
 
-        //password hash
-        const salt = await bcrypt.genSalt(10);
-        const pwd = await bcrypt.hash(req.body.password,salt);
-        data.password = pwd;
+        data.notes = req.body.notes;
 
         //insert user
         try{
-            let result = await Users.insert(data);
+            let result = await Ms_service.insert(data);
             if(!result.status) await rest.error('',result.message,res);
             rest.success(result.data,'sukses',res);
         }catch(err){
@@ -80,19 +71,9 @@ route
         //getdata
         let data = {
             id : req.params.id,
-            username : req.body.username,
-            firstname: req.body.firstname,
-            lastname : req.body.lastname
+            service_code : req.body.service_code,
+            service_type: req.body.service_type
         };
-
-
-        //password 
-        if(req.body.password){
-            JoiSchemaEdit.password = Joi.string().min(6).max(20).required();
-            JoiSchemaEdit.confpassword = Joi.string().min(6).max(20).required().valid(Joi.ref('password'));
-            data.password = req.body.password;
-            data.confpassword = req.body.confpassword;
-        }
         
         //validation
         try{
@@ -103,15 +84,11 @@ route
 			return rest.error(value,message,res);
         }
         
-        if(req.body.password){
-            const salt = await bcrypt.genSalt(10);
-            const pwd = await bcrypt.hash(req.body.password,salt);
-            data.password = pwd;
-        }
-
+        data.notes = req.body.notes;
+        
         //insert user
         try{
-            let result = await Users.update(req.params.id,data);
+            let result = await Ms_service.update(req.params.id,data);
             if(!result.status) await rest.error('',result.message,res);
             rest.success(result.data,'sukses',res);
         }catch(err){
@@ -122,7 +99,7 @@ route
 
     .delete('/:id',auth.isLoginAPI,async (req,res,next)=>{
         let id = req.params.id;
-        let result = await Users.delete(id);
+        let result = await Ms_service.delete(id);
         if(!result.status) await rest.error('',result.message,res);
         rest.success(result.data,'sukses',res);
     });

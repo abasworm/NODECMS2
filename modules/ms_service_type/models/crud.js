@@ -1,22 +1,29 @@
 const conn = require('../../../config/dbconnect');
-const table_name =  'c_user';
+const table_name =  'ms_service_type';
 const primary_key = 'id';
 const dataSetAdd = [
-    'username',
-    'password',
-    'firstname',
-    'lastname'
+    'service_code',
+    'service_type',
+    'notes'
 ];
 const dataSetUpdate = [
-    'username',
-    'firstname',
-    'lastname'
+    'service_code',
+    'service_type',
+    'notes'
 ];
 
 let Mdl = {
-    select : async ()=>{
+    select : async (param)=>{
         try{
-            let sql = "SELECT id,username, CONCAT(lastname,', ',firstname) AS fullname FROM " + table_name;
+            let qry = "";
+            if(param){
+                for(var i in param){
+                    if(i > 0) {qry += " AND "}else{qry += " WHERE "};
+                    qry += i + " = '" + param[i] + "'";
+                }
+                
+            }
+            let sql = "SELECT * FROM " + table_name + qry;
             let res = await conn.query(sql);
             return {
                 status : true,
@@ -34,7 +41,7 @@ let Mdl = {
     selectOne: async (id)=>{
         try{
             if(!id) return false;
-            let sql = "SELECT id, username, firstname, lastname FROM " + table_name + " WHERE " + primary_key + " = '" + id + "'";
+            let sql = "SELECT * FROM " + table_name + " WHERE " + primary_key + " = '" + id + "'";
             let res = await conn.query(sql);
             return {
                 status : true,
@@ -75,7 +82,7 @@ let Mdl = {
         try{
             let dataRs = [];
             if(!data) return false;
-            if(data.password) Object.assign(dataSetUpdate,['password']);
+            
             let qry = "UPDATE " + table_name + " SET ";
             for(var i in dataSetUpdate){
                 if(i > 0) qry += " ,";

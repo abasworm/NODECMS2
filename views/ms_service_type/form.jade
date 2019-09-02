@@ -1,0 +1,50 @@
+extends ../adminlte/layout
+
+block footer
+    script(src='/js/modules/ms_service_type/form.js')
+
+block content
+    .col-md-12
+        .box.box-info
+            .box-header.with-border
+                h3.box-title #{title}
+            // /.box-header
+            // form start
+            form.form-horizontal
+                .box-body
+                    #alertbox.alert.alert-warning
+                        a#closeAlert.close.btn.btn-sm(href='javascript:;')
+                            i.fa.fa-times
+                        text#message
+                    .row
+                        if !isAddForm
+                            input(type='hidden', name='ids', value=ids)
+                        
+                        .col-md-12
+                    
+                            .form-group
+                                label.col-sm-2.control-label(for='service_code') Service Code
+                                .col-sm-8
+                                    input#service_code.form-control(type='text', placeholder='service code')
+                            .form-group
+                                label.col-sm-2.control-label(for='service_type') Service Type
+                                .col-sm-8
+                                    input#service_type.form-control(type='text', placeholder='service type')
+                            .form-group
+                                label.col-sm-2.control-label(for='notes') notes
+                                .col-sm-8
+                                    textarea#notes.form-control(type='notes' rows="12")
+                            
+                            .form-group
+                                .col-sm-2
+                                .col-sm-10
+                                    if isAddForm
+                                        a.btn.btn-primary(href='javascript:save();') Simpan
+                                    else
+                                        a.btn.btn-primary(href='javascript:update();') Update
+                                    | 
+                                    a.btn.btn-warning(href='/users') Cancel
+                // /.box-body
+                .box-footer
+
+                   

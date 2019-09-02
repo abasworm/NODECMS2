@@ -8,7 +8,7 @@ $(document).ready(function() {
 	});
 
     //datyatable
-	var link = "/api/users/datatable";
+	var link = "/api/ms_service_type/datatable";
 	//membuat footer menjadi field input
     $('#dt_table tfoot th').each(function () {
         var title = $('#dt_table thead th').eq($(this).index()).text();
@@ -115,8 +115,8 @@ $(document).ready(function() {
                     );
                 }
             },
-            {"data": "username"},
-            {"data": "fullname"}
+            {"data": "service_code"},
+            {"data": "service_type"}
                 
         ],
 
@@ -148,14 +148,14 @@ $(document).ready(function() {
 });
 
 function edit(id){
-    document.location = '/users/edit/'+id;
+    document.location = '/ms_service_type/edit/'+id;
 }
 
 function del(id){
     a = confirm('Are you sure want to delete ?');
     
     if(a){
-        xhqr('/api/users/'+id,'DELETE',{key :'abcdh'},function(res,ret){
+        xhqr('/api/ms_service_type/'+id,'DELETE',{key :'abcdh'},function(res,ret){
             if(!res.status){
                 $('#alertbox #message').html(res.message);
                 $('#alertbox').show();

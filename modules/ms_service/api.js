@@ -2,9 +2,9 @@ const route = require('express').Router();
 const auth = require('../../middleware/auth');
 const Joi = require('@hapi/joi');
 const rest = require('../../config/rest');
-const bcrypt = require('bcryptjs');
-const Users = require('./models/crud');
 
+const Ms_service = require('./models/crud');
+const Ms_service_type = require('../ms_service_type/models/crud');
 
 const JoiSchemaAdd = {
 	username : Joi.string().min(6).max(20).required(),
@@ -21,6 +21,11 @@ const JoiSchemaEdit = {
 };
 
 route
+    .get('/service_type', async(req,res,next)=>{
+        let result = await Ms_service_type.get();
+        if(!result.status) await rest.error('',result.message,res);
+        rest.success(result.data,'sukses',res);
+    })
     .get('/',auth.isLoginAPI , async (req,res,next)=>{
         let result = await Users.select();
         if(!result.status) await rest.error('',result.message,res);

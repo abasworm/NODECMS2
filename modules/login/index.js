@@ -47,7 +47,7 @@ route
     .get('/exit',async(req,res,next)=>{
         try{
             await req.session.destroy();
-            res.render('template/login',_layout);
+            res.redirect('/login');
         }catch(err){
             return rest.error(err,"Can't Quit Session",res);
         }

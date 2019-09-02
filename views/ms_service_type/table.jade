@@ -6,7 +6,7 @@ block header
 block footer
     script(type='text/javascript', src='/plugins/datatables/datatables.min.js')
     script(src='/adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')
-    script(src="/js/modules/users/table.js")
+    script(src="/js/modules/ms_service_type/table.js")
     
 block content
     .col-xs-12
@@ -16,25 +16,21 @@ block content
                     b #{title} 
                     
                 // /.box-header
-                a.btn.btn-primary.pull-right(href='/users/add') 
+                a.btn.btn-primary.pull-right(href='/ms_service_type/add') 
                     i.fa.fa-plus(aria-hidden='true') &nbsp;
                     | Add
             .box-body
-                #alertbox.alert.alert-warning
-                    a#closeAlert.close.btn.btn-sm(href='javascript:;')
-                        i.fa.fa-times
-                    text#message
                 table#dt_table.table.table-bordered.table-hover
                     thead
                         tr
-                            each head in header
+                            each head in header_table
                                 th=head
                             else 
                                 th There is no header
                     tbody
                     tfoot
                         tr
-                            each head in header
+                            each head in header_table
                                 th=head
                             else 
                                 th There is no header
