@@ -1,0 +1,82 @@
+extends ../adminlte/layout
+
+block header
+    link(rel='stylesheet', href='/adminlte/bower_components/select2/dist/css/select2.min.css')
+
+block footer
+    script(src='/adminlte/bower_components/select2/dist/js/select2.full.min.js')
+    script(src='/plugins/tinymce/dist/tinymce.min.js')
+    script(src='/js/modules/ms_service/video_cap.js')
+    script(src='/js/modules/ms_service/form.js')    
+
+block content
+    .col-md-12
+        .box.box-info
+            .box-header.with-border
+                h3.box-title #{title}
+            // /.box-header
+            // form start
+            form.form-horizontal
+                .box-body
+                    #alertbox.alert.alert-warning
+                        a#closeAlert.close.btn.btn-sm(href='javascript:;')
+                            i.fa.fa-times
+                        text#message
+                    .row
+                        if !isAddForm
+                            input(type='hidden', name='ids', value=ids)
+                        
+                        .col-md-12
+
+                            .form-group
+                                label.col-sm-2.control-label(for='service_code') Type Service
+                                .col-sm-8
+                                    select#service_code.form-control.select2(placeholder='Please Select' style="width: 100%;")
+
+                            .form-group
+                                label.col-sm-2.control-label(for='id_atm') SSBID
+                                .col-sm-8
+                                    input#id_atm.form-control(type='text', placeholder='SSBID')
+                                .col-sm-2
+                                    a.btn.btn-info(href="javascript:check_ssbid();") Check
+                            .form-group
+                                label.col-sm-2.control-label(for='atm_location') ATM Location
+                                .col-sm-8
+                                    input#atm_location.form-control(type='text', readonly)
+                                    
+
+                            .form-group
+                                label.col-sm-2.control-label(for='service_image_before') Video Select
+                                .col-sm-8
+                                    select#videoSource.form-control
+
+                            .form-group
+                                label.col-sm-2.control-label(for='service_image_before')
+                                .col-sm-8
+                                    a#btncapt.btn.btn-primary(href="#") Start
+                                    a#btnscr.btn.btn-primary(href="#") Capture
+                                    a#btnrst.btn.btn-primary(href="#") Reset
+                            .form-group
+                                label.col-sm-2.control-label(for='imgs') Image
+                                .col-sm-8
+                                    video#videos(autoplay  style='width:100%')
+                                    img#imgs(src=""  style='width:100%')
+                            .form-group
+                                label.col-sm-2.control-label(for='service_notes') Notes
+                                .col-sm-8
+                                    textarea#service_notes.form-control(type='text', rows=15, placeholder='Notes')
+                    
+                            
+                            .form-group
+                                .col-sm-2
+                                .col-sm-10
+                                    if isAddForm
+                                        a.btn.btn-primary(href='javascript:save();') Simpan
+                                    else
+                                        a.btn.btn-primary(href='javascript:update();') Update
+                                    | 
+                                    a.btn.btn-warning(href='/ms_service') Cancel
+                // /.box-body
+                .box-footer
+        
+                   
