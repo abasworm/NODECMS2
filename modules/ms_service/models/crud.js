@@ -27,7 +27,7 @@ let Mdl = {
         let digit_sum_tanggal      = 4;
         let digit_insert_tanggal   = digit_prefix + 1;
         let digit_insert_padnum    = digit_insert_tanggal + digit_sum_tanggal + 1;
-
+        let kodeNum ="";
         //query
         let query = "SELECT \
             	CAST(DATE_FORMAT(NOW(),'%y%m') AS CHAR) AS DATEi,\
@@ -46,19 +46,13 @@ let Mdl = {
                     AND  " + table_num + " LIKE '" + param + "%' \
             ) AS t1 ";
         try{
-            let res = await conn.query(sql);
-            let kodeNum = res['DATEi'] + res['MAXi'];
+            let res = await conn.query(query);
+            kodeNum = res['DATEi'] + res['MAXi'];
         }catch(err){
-            return {
-                status : false,
-                data : err.message
-            };
+            return false;
         }
         //gabungkan string dengan kode yang telah dibuat tadi
-        return {
-            status : true,
-            data : param+kodeNum
-        }
+        return param + kodeNum;
     },
 
     select : async (param)=>{

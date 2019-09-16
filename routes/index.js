@@ -14,4 +14,7 @@ route.use('/api/ms_service_type',require('../modules/ms_service_type/api'));
 route.use('/ms_service', require('../modules/ms_service'));
 route.use('/api/ms_service',require('../modules/ms_service/api'));
 
+route.use('/at_ticket', require('../modules/at_ticket'));
+route.use('/api/at_ticket', require('../modules/at_ticket/api'));
+
 module.exports = route;
