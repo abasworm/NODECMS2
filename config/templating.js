@@ -4,8 +4,8 @@ module.exports = {
             _AppTitle : "ATM Services",
             _AppTitleSmall : "ATM Services",
             _AppTitleAlias : "ATMS",
-            _Copyright : "Diebold 2017",
-            _Version : "1.0 Beta",
+            _Copyright : "2019 DN, Admin LTE 3",
+            _Version : "1.0.1 Alpha",
             _UserName : req.session.fullname
         };
         await Object.assign(datax,data);

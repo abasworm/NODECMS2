@@ -38,19 +38,7 @@ $(document).ready(function(e){
 	//SELECT 2
 	
 
-	//EDIT
-	if($('input[name=ids]').val()){
-		xhqr('/api/users/'+$('input[name=ids]').val(),'GET',{},function(res,ret){
-		if(res.status === 'error'){
-			$('#alertbox #message').html(res.message);
-			$('#alertbox').show();
-		}else{
-			$('#username').val(res.results.username);
-			$('#firstname').val(res.results.firstname);
-			$('#lastname').val(res.results.lastname);
-		}
-	});
-	}
+	
 });
 
 function save(){
@@ -71,24 +59,7 @@ function save(){
 	});
 }
 
-function update(){
-	var jsData = {
-		key : 'abcdh',
-		username: $('#username').val(),
-		password: $('#password').val(),
-		confpassword: $('#confpassword').val(),
-		firstname: $('#firstname').val(),
-		lastname: $('#lastname').val()
-	}
-	xhqr('/api/users/'+$('input[name=ids]').val(),'PUT',jsData,function(res,ret){
-		if(!res.status){
-			$('#alertbox #message').html(res.message);
-			$('#alertbox').show();
-		}else{
-			document.location.href = '/users';
-		}
-	});
-}
+
 
 function check_ssbid(){
 	var ssbid = $('#id_atm').val();

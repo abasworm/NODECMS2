@@ -2,9 +2,9 @@ const route = require('express').Router();
 const view = require('../../config/templating');
 const { isLogin } = require('../../middleware/auth');
 
-let link = "ms_service"
+let link = "ms_aproval"
 let _layout = {
-    title : 'Management Service',
+    title : 'Approval Admin',
     isAddForm : true,
     _link : link
 }
@@ -19,9 +19,13 @@ route
         view.ViewShow(link + '/table',_layout,req,res);
     })
 
-    .get('/add',isLogin ,(req,res,next)=>{
-        _layout.isAddForm = true;
-        view.ViewShow(link + '/form',_layout,req,res);
+    .get('/check/:ids',isLogin ,(req,res,next)=>{
+        const _edit_layout = {
+            ids : req.params.ids
+        };
+        Object.assign(_layout,_edit_layout);
+        _layout.isAddForm = false;
+        view.ViewShow(link + '/close',_layout,req,res);
     })
     
     .get('/close/:ids',isLogin ,(req,res,next)=>{

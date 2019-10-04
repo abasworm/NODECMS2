@@ -8,7 +8,7 @@ $(document).ready(function() {
 	});
 
     //datyatable
-	var link = "/api/ms_service/datatable";
+	var link = "/api/ms_aproval/datatable";
 	//membuat footer menjadi field input
     $('#dt_table tfoot th').each(function () {
         var title = $('#dt_table thead th').eq($(this).index()).text();
@@ -108,17 +108,11 @@ $(document).ready(function() {
             
             { "data":null ,"orderable":false, "searchable":false,
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                    if(oData.service_status!=="DRAFT"){
-                        $(nTd).html('<div class="btn-group">'
-                            +'<a href="javascript:close(\''+oData.id+'\')" class="btn btn-sm bg-blue '+(oData.service_status!=="ON PROCESS"?"disabled":"")+'"><i class="fa fa-thumbs-up"></i></a> '
-                            +'<a href="javascript:del(\''+oData.id+'\')" class="btn btn-sm btn-danger '+(oData.service_status!=="ON PROCESS"?"disabled":"")+'"><i class="fa fa-trash"></i></a> '
-                            +'</div>'
-                        );
-                    }else if(oData.service_status == 'DRAFT') {
-                        $(nTd).html('<div class="btn-group">'
-                        + '<a href="javascript:comment(\''+oData.id+'\')" class="btn btn-sm bg-yellow '+(oData.service_status!=="DRAFT"?"disabled":"")+'"><i class="fa fa-commenting"></i></a> '
-                        +'</div>');
-                    }
+                    arrShould = ['OPEN','DRAFT'];
+                    $(nTd).html('<div class="btn-group">'
+                        +'<a href="javascript:close(\''+oData.id+'\')" class="btn btn-sm bg-blue '+(!arrShould.includes(oData.service_status)?"disabled":"")+'"><i class="fa fa-eye"></i></a> '
+                        +'</div>'
+                    );
                 }
             },
             {"data": "service_ticket"},
@@ -165,14 +159,14 @@ $(document).ready(function() {
 });
 
 function close(id){
-    document.location = '/ms_service/close/'+id;
+    document.location = '/ms_aproval/close/'+id;
 }
 
 function del(id){
     a = confirm('Are you sure want to delete ?');
     
     if(a){
-        xhqr('/api/ms_service/'+id,'DELETE',{key :'abcdh'},function(res,ret){
+        xhqr('/api/users/'+id,'DELETE',{key :'abcdh'},function(res,ret){
             if(!res.status){
                 $('#alertbox #message').html(res.message);
                 $('#alertbox').show();
@@ -181,8 +175,4 @@ function del(id){
             }
         });
     }
-}
-
-function comment(id){
-    document.location = '/ms_aproval/close/'+id;
 }

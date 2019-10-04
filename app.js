@@ -15,6 +15,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(session({
+  name: 'S31kd112kfdk',
 	secret: process.env.SESSION_SECRET_KEY,
 	store: new MySQLStore({
     clearExpired: true,
@@ -29,6 +30,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/UPLOADER',express.static(path.join(__dirname, 'UPLOADER')));
 
 app.use('/', require('./routes'));
 app.use('/login', require('./modules/login'));
