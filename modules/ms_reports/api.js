@@ -1,34 +1,40 @@
 const route = require('express').Router();
 const auth = require('../../middleware/auth');
-const Joi = require('@hapi/joi');
-//const ImageExt = require('joi-image-extension');
 const rest = require('../../config/rest');
-const upload = require('../../middleware/upload');
 
 const Mdl = require('./models');
-
-//const customJoi = Joi.extend(ImageExt);
-
-const JoiSchemaAdd = {
-	service_code : Joi.string().required(),
-	serial_number_atm : Joi.string().min(4).max(20).required(),
-	image : Joi.string().required(),
-    service_notes : Joi.string()
-};
-
-const JoiSchemaEdit = {
-    id : Joi.number().required(),
-    service_ticket : Joi.string().required(),
-    service_notes : Joi.string().required(),
-    service_status : Joi.string()
-};
-
-
 route
     .post('/datatable',auth.isLoginDTTbl, async (req,res,next)=>{
-        const fieldToShow = ['id','service_ticket','service_code','serial_number_atm','service_status']; //field to show
-        let paramCust = " service_status IN('OPEN','DRAFT','CLOSE') AND created_date BETWEEN DATE_ADD(NOW(), INTERVAL -7 DAY) AND NOW()"; //extra query
-        let result = await Mdl.select({}, paramCust); // database result
+        if(!req.body) return rest.error('','NULL VALUE',res);
+        const date_start = req.body.date_start;
+        const date_end = req.body.date_end;
+        const service_type = req.body.service_type;
+        const service_status = req.body.service_status;
+
+        let qry = "";
+
+        //date entry
+        if(date_start){
+            qry += " AND created_date BETWEEN '" + date_start + "'";
+            if(date_end){
+                qry += " AND '" + date_end + "'";
+            }else{
+                qry += " AND DATE_ADD('"+date_start+"', INTERVAL 1 DAY)";
+            }
+        }
+
+        if(service_status){
+            qry += " AND service_status ='"+service_status+"'";
+        }else{
+            qry += " AND service_status IN('OPEN','DRAFT','CLOSE')";
+        }
+
+        if(service_type){
+            qry += " AND service_code ='" + service_type +"'";
+        }
+
+        const fieldToShow = ['id','service_ticket','service_type','serial_number_atm','service_status','address','city']; //field to show
+        let result = await Mdl.select({}, qry); // database result
         if(!result.status) await rest.error('',result.message,res);
         var data = [];
         for(var key in result.data){
@@ -63,10 +69,10 @@ route
             'modified_date',
         ]; //field to show
         let paramSrc = {
+            created_by : username,
             id : ids
         }; //param to db
-        if(req.session.user_group == '3') paramSrc.username = req.session.username;
-        let result = await Mdl.select(paramSrc,false,'AND'); // database result
+        let result = await Mdl.select(paramSrc); // database result
         if(!result.status) await rest.error('',result.message,res);
         var data = {};
         
@@ -109,42 +115,6 @@ route
         }
     
     })
-    .put('/:id',auth.isLoginAPI, async (req,res,next)=>{
-        if(!req.body || !req.params.id) return res.sendStatus(400);
-        //getdata
-        let data = {
-            id : req.params.id,
-            service_ticket : req.body.no_ticket,
-            service_notes : req.body.service_notes,
-            service_status : req.body.service_status
-        };
-
-    
-        //validation
-        try{
-            const joiError = await Joi.validate(data, JoiSchemaEdit);
-        }catch(err){
-            const message = err.details[0].message;
-			const value = err.details[0].path[0];
-			return rest.error(value,message,res);
-        }
-
-        try{
-
-            let dataPlus = {
-                username : req.session.username
-            }
-            Object.assign(data,dataPlus);
-            let result = await Mdl.close(req.params.id,data);
-            if(!result.status) await rest.error('',result.message,res);
-            let xdata = {
-                link : (req.session.user_group === 3?'ms_service':'ms_aproval')
-            }
-            rest.success(xdata,'sukses',res);
-        }catch(err){
-            return rest.error(err,err.message,res);
-        }
-
-    })
+    ;
 
 module.exports = route;

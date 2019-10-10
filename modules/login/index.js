@@ -17,7 +17,7 @@ route
     .get('/', (req,res,next)=>{
         
         if(!req.session.username){
-            res.render('template/login',_layout);
+            res.render('adminlte/login',_layout);
         }else{
             res.redirect('/dashboard');
         }
@@ -35,6 +35,7 @@ route
                 if(verify){
                     req.session.username = User.data.username;
                     req.session.fullname = User.data.lastname + ", " + User.data.firstname;
+                    req.session.user_group = User.data.user_group;
                     rest.success(true,'Success Login',res);
                 }else{
                     rest.error(err,"Username / Password Salah",res);

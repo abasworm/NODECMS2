@@ -12,12 +12,14 @@ const JoiSchemaAdd = {
 	confpassword : Joi.string().min(6).max(20).required().valid(Joi.ref('password')),
     firstname : Joi.string().min(4).max(30).required(),
     lastname : Joi.string(),
+    user_group : Joi.number().required()
 };
 const JoiSchemaEdit = {
 	id : Joi.number().required(),
 	username : Joi.string().min(6).max(20).required(),
 	firstname : Joi.string().min(4).max(30).required(),
     lastname : Joi.string(),
+    user_group : Joi.number().required()
 };
 
 route
@@ -44,8 +46,10 @@ route
         let data = {
             username : req.body.username,
             password : req.body.password,
+            confpassword : req.body.confpassword,
             firstname: req.body.firstname,
-            lastname : req.body.lastname
+            lastname : req.body.lastname,
+            user_group : req.body.user_group
         };
 
         //validating
@@ -82,7 +86,8 @@ route
             id : req.params.id,
             username : req.body.username,
             firstname: req.body.firstname,
-            lastname : req.body.lastname
+            lastname : req.body.lastname,
+            user_group : req.body.user_group
         };
 
 

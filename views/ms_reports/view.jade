@@ -4,7 +4,7 @@ block header
 
 block footer
     script(src='/plugins/tinymce/dist/tinymce.min.js')
-    script(src='/js/modules/ms_aproval/close.js')    
+    script(src='/js/modules/ms_reports/view.js')    
 
 block content
     .col-md-12
@@ -58,25 +58,11 @@ block content
                                 .col-sm-8
                                     #service_notes_before.form-control      
 
-
-                            .form-group
-                                label.col-sm-2.control-label(for='service_notes') Notes
-                                .col-sm-8
-                                    textarea#service_notes.form-control(type='text', rows=15, placeholder='Notes')
                             
-                            
-                            .form-group
-                                .col-sm-2
-                                .col-sm-10
                                     
-                                    a.btn.btn-primary(href='javascript:update("DRAFT");') DRAFT
-                                    | 
-                                    a.btn.btn-success#btnexec(href='javascript:update("CLOSE");') CLOSE
-                                    | 
-                                    a.btn.btn-warning(href='/ms_service') CANCEL
                 // /.box-body
                 .box-footer
-    
+                    a.btn.btn-warning(href='javascript:window.history.back()') CANCEL
         .col-md-12
 
             ul.timeline#timeliner

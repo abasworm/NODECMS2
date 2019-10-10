@@ -35,6 +35,7 @@ $(document).ready(function() {
 
     //mendeklarasikan dan mendefinisikan data table
     table = $('#dt_table').DataTable({
+        "scrollX":true,
         "processing": true,
         dom: "<'row'<'col-sm-4'B><'col-sm-4'l><'col-sm-4'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-3'i><'col-sm-9'p>>",
         destroy: true,

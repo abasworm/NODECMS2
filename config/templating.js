@@ -6,7 +6,8 @@ module.exports = {
             _AppTitleAlias : "ATMS",
             _Copyright : "2019 DN, Admin LTE 3",
             _Version : "1.0.1 Alpha",
-            _UserName : req.session.fullname
+            _UserName : req.session.fullname,
+            _UserGroup : req.session.user_group
         };
         await Object.assign(datax,data);
         try{

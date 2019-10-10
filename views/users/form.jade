@@ -25,7 +25,7 @@ block content
                             .form-group
                                 label.col-sm-2.control-label(for='username') Username
                                 .col-sm-8
-                                    input#username.form-control(type='text', placeholder='username')
+                                    input#username.form-control(type='text', placeholder='username', autocomplete='off')
                             .form-group
                                 label.col-sm-2.control-label(for='password') Password
                                 .col-sm-8
@@ -37,11 +37,20 @@ block content
                             .form-group
                                 label.col-sm-2.control-label(for='firstname') First Name
                                 .col-sm-8
-                                    input#firstname.form-control(type='text', placeholder='Firstname')
+                                    input#firstname.form-control(type='text', placeholder='Firstname' , autocomplete='off')
                             .form-group
                                 label.col-sm-2.control-label(for='lastname') Last Name
                                 .col-sm-8
-                                    input#lastname.form-control(type='text', placeholder='Lastname')
+                                    input#lastname.form-control(type='text', placeholder='Lastname', autocomplete='off')
+                            .form-group
+                                label.col-sm-2.control-label(for='user_group') User Group
+                                .col-sm-8
+                                    select#user_group.form-control.select2
+                                        option(value="1") Administrator
+                                        option(value="3") Field Engineer
+                                        option(value="4") Aproval
+                                        option(value="5") Manager
+                                        option(value="6") Customer
                             .form-group
                                 .col-sm-2
                                 .col-sm-10

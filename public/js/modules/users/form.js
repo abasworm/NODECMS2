@@ -15,6 +15,7 @@ $(document).ready(function(e){
 			$('#username').val(res.results.username);
 			$('#firstname').val(res.results.firstname);
 			$('#lastname').val(res.results.lastname);
+			$('#user_group').val(res.results.user_group);
 		}
 	});
 	}
@@ -27,7 +28,8 @@ function save(){
 		password: $('#password').val(),
 		confpassword: $('#confpassword').val(),
 		firstname: $('#firstname').val(),
-		lastname: $('#lastname').val()
+		lastname: $('#lastname').val(),
+		user_group: $('#user_group').val()
 	}
 	xhqr('/api/users','POST',jsData,function(res,ret){
 		if(!res.status){
@@ -46,7 +48,8 @@ function update(){
 		password: $('#password').val(),
 		confpassword: $('#confpassword').val(),
 		firstname: $('#firstname').val(),
-		lastname: $('#lastname').val()
+		lastname: $('#lastname').val(),
+		user_group : $('#user_group').val()
 	}
 	xhqr('/api/users/'+$('input[name=ids]').val(),'PUT',jsData,function(res,ret){
 		if(!res.status){

@@ -28,6 +28,7 @@ let Mdl = {
                 qry += " AND " +customParam;
             }
             let sql = "SELECT * FROM " + table_name + qry;
+            console.log(ary);
             console.log(sql);
             let res = await conn.query(sql,ary);
             return {

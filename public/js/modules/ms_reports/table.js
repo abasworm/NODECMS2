@@ -6,9 +6,13 @@ $(document).ready(function() {
 	$('#closeAlert').on('click',function(e){
 		$('#alertbox').hide();
 	});
-
+    $('.select2').select2();
+    $('.datepicker').datepicker({
+        autoclose : true,
+        format: 'yyyy-mm-dd'
+    })
     //datyatable
-	var link = "/api/ms_service_type/datatable";
+	var link = "/api/ms_reports/datatable";
 	//membuat footer menjadi field input
     $('#dt_table tfoot th').each(function () {
         var title = $('#dt_table thead th').eq($(this).index()).text();
@@ -102,6 +106,10 @@ $(document).ready(function() {
         	type: "POST",
         	data : function(d){
                 d.key = 'abcdh';
+                d.date_start = $('#date_start').val();
+                d.date_end = $('#date_end').val();
+                d.service_type = $('#service_type').val();
+                d.service_status = $('#service_status').val();
 
         	}
         },            
@@ -109,15 +117,29 @@ $(document).ready(function() {
             
             { "data":null ,"orderable":false, "searchable":false,
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                    arrShould = ['OPEN','DRAFT'];
                     $(nTd).html('<div class="btn-group">'
-                        +'<a href="javascript:edit(\''+oData.id+'\')" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></a> '
-                        +'<a href="javascript:del(\''+oData.id+'\')" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a> '
+                        +'<a href="javascript:view(\''+oData.id+'\')" class="btn btn-sm bg-blue '+(!arrShould.includes(oData.service_status)?"":"")+'"><i class="fa fa-eye"></i></a> '
                         +'</div>'
                     );
                 }
             },
-            {"data": "service_code"},
-            {"data": "service_type"}
+            {"data": "service_ticket"},
+            {"data": "service_type"},
+            {"data": "serial_number_atm"},
+            {"data": "address"},
+            {"data": "city"},
+            {"data":null ,
+                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                    var x = "";
+                    switch(oData.service_status.toUpperCase()){
+                        case "ON PROCESS" : x = "<span class='label bg-blue'> ON PROCESS </span>";break;
+                        case "OPEN" : x = "<span class='label bg-red'> OPEN </span>";break;
+                        case "DRAFT": x = "<span class='label bg-yellow'> DRAFT </span>" ;break;
+                        case "CLOSE": x = "<span class='label bg-green'> CLOSE </span>" ;break;
+                    }
+                $(nTd).html(x);
+            }}
                 
         ],
 
@@ -148,21 +170,11 @@ $(document).ready(function() {
     });
 });
 
-function edit(id){
-    document.location = '/ms_service_type/edit/'+id;
+function search(id){
+    table.ajax.reload();
 }
 
-function del(id){
-    a = confirm('Are you sure want to delete ?');
-    
-    if(a){
-        xhqr('/api/ms_service_type/'+id,'DELETE',{key :'abcdh'},function(res,ret){
-            if(!res.status){
-                $('#alertbox #message').html(res.message);
-                $('#alertbox').show();
-            }else{
-                table.ajax.reload();
-            }
-        });
-    }
+function view(id){
+    document.location = '/ms_reports/view/'+id;
 }
+

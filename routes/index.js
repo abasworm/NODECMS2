@@ -17,6 +17,9 @@ route.use('/api/ms_service',require('../modules/ms_service/api'));
 route.use('/ms_aproval', require('../modules/ms_aproval'));
 route.use('/api/ms_aproval',require('../modules/ms_aproval/api'));
 
+route.use('/ms_reports', require('../modules/ms_reports'));
+route.use('/api/ms_reports',require('../modules/ms_reports/api'));
+
 route.use('/at_ticket', require('../modules/at_ticket'));
 route.use('/api/at_ticket', require('../modules/at_ticket/api'));
 

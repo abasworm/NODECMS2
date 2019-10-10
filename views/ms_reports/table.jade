@@ -1,0 +1,74 @@
+extends ../adminlte/layout
+
+block header
+    link(rel='stylesheet', href='/plugins/datatables/datatables.min.css')
+    link(rel="stylesheet", href="/adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css")
+    link(rel='stylesheet', href='/adminlte/bower_components/select2/dist/css/select2.min.css')
+
+block footer
+    script(src='/adminlte/bower_components/select2/dist/js/select2.full.min.js')
+    script(type='text/javascript', src='/plugins/datatables/datatables.min.js')
+    script(src='/adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')
+    script(src="/adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js")
+    script(src="/js/modules/ms_reports/table.js")
+    
+block content
+    .col-xs-12
+        .box
+            .box-header
+                h3.box-title
+                    b #{title}
+            .box-body
+                form.form-horizontal
+                .row 
+                    .col-md-12
+                        .form-group
+                            label.col-sm-2.control-label(for='date_start') Date Start
+                            .col-sm-4
+                                input#date_start.form-control.datepicker(type='text', placeholder='Date Start')   
+                                
+                            label.col-sm-2.control-label(for='date_end') Date End
+                            .col-sm-4
+                                input#date_end.form-control.datepicker(type='text', placeholder='Date End')   
+                        
+                        .form-group
+                            label.col-sm-2.control-label(for='service_type') Service Type
+                            .col-sm-4
+                                select#service_type.form-control.select2
+                                    option(value="") ALL
+                                    option(value="C01") Cleaning Check
+                                    option(value="T01") Token Check
+                                    
+                            label.col-sm-2.control-label(for='service_status') Service Status
+                            .col-sm-4
+                                select#service_status.form-control.select2
+                                    option(value="") ALL
+                                    option(value="OPEN") OPEN
+                                    option(value="DRAFT") DRAFT
+                                    option(value="CLOSED") CLOSED
+            .box-footer
+                a.btn.btn-primary(href='javascript:search();') Search
+
+        .box
+            .box-header
+                h3.box-title
+                    b #{title} 
+                    
+            .box-body
+                
+                
+                table#dt_table.table.table-bordered.table-hover
+                    thead
+                        tr
+                            each head in header_table
+                                th=head
+                            else 
+                                th There is no header
+                    tbody
+                    tfoot
+                        tr
+                            each head in header_table
+                                th=head
+                            else 
+                                th There is no header
+

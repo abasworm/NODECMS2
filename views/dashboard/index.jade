@@ -1,9 +1,28 @@
 extends ../adminlte/layout
 
+block header
+    link(rel="stylesheet", href="/adminlte/bower_components/Ionicons/css/ionicons.min.css")
+
 block content
-    .col-md-12
-        .box.box-info
-            .box-header.with-border
-                h3.box-title #{title}
+    .col-md-6.col-sm-6.col-xs-12
+        .info-box
+            span.info-box-icon.bg-aqua
+                i.ion.ion-ios-gear-outline
+            .info-box-content
+                span.info-box-text Today's Clean Service
+                span.info-box-number
+                    | 12
+                    small &nbsp;Point
+    .col-md-6.col-sm-6.col-xs-12
+        .info-box
+            span.info-box-icon.bg-blue
+                i.ion.ion-flash
+            .info-box-content
+                span.info-box-text Today's Token Service
+                span.info-box-number
+                    | 0
+                    small &nbsp;Point
+
+        
     
     

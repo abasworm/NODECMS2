@@ -33,15 +33,7 @@ $(document).ready(function(e){
 			$('#service_image_after').attr('src',res.results.service_image_path_closed.substring(1));
             // tinyMCE.activeEditor.insertContent(res.results.service_notes);
 			$('#service_notes_before').html(res.results.service_notes);
-			if(res.results.service_status == 'DRAFT' ){
-				$('#btnexec').html('OPEN');
-				$('#btnexec').prop('href','javascript:update("OPEN");');
-				$('#btnexec').prop('class','btn btn-danger');
-			}else{
-				$('#btnexec').html('CLOSE');
-				$('#btnexec').prop('href','javascript:update("CLOSE");');
-				$('#btnexec').prop('class','btn btn-success');
-			}
+			
 
 			check_ssbid();
 			check_history();
@@ -88,19 +80,3 @@ function check_ssbid(){
 	});
 }
 
-function update(stats){
-	var jsData = {
-        key : 'abcdh',
-        no_ticket : $('#no_ticket').val(),
-		service_notes: tinyMCE.get('service_notes').getContent(),
-		service_status : stats
-	}
-	xhqr('/api/ms_aproval/'+$('input[name=ids]').val(),'PUT',jsData,function(res,ret){
-		if(!res.status){
-			$('#alertbox #message').html(res.message);
-			$('#alertbox').show();
-		}else{
-			document.location.href = '/'+res.results.link;
-		}
-	});
-}

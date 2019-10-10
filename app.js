@@ -16,7 +16,9 @@ app.set('view engine', 'jade');
 
 app.use(session({
   name: 'S31kd112kfdk',
-	secret: process.env.SESSION_SECRET_KEY,
+  secret: process.env.SESSION_SECRET_KEY,
+  resave : false,
+  saveUninitialized: true,
 	store: new MySQLStore({
     clearExpired: true,
     checkExpirationInterval: 100 * 60 * 60,

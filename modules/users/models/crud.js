@@ -5,12 +5,14 @@ const dataSetAdd = [
     'username',
     'password',
     'firstname',
-    'lastname'
+    'lastname',
+    'user_group'
 ];
 const dataSetUpdate = [
     'username',
     'firstname',
-    'lastname'
+    'lastname',
+    'user_group'
 ];
 
 let Mdl = {
@@ -34,7 +36,7 @@ let Mdl = {
     selectOne: async (id)=>{
         try{
             if(!id) return false;
-            let sql = "SELECT id, username, firstname, lastname FROM " + table_name + " WHERE " + primary_key + " = '" + id + "'";
+            let sql = "SELECT id, username, firstname, lastname, user_group FROM " + table_name + " WHERE " + primary_key + " = '" + id + "'";
             let res = await conn.query(sql);
             return {
                 status : true,
